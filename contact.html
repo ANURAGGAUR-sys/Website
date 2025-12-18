@@ -25,26 +25,34 @@
       <p style="color:#6b7280;">Tell us about your project and we'll get back to you.</p>
 
       <div class="contact-grid" style="margin-top:18px;">
-        <form onsubmit="event.preventDefault(); alert('Message sent (demo)');">
-          <div>
-            <label for="name">Name</label>
-            <input id="name" required />
+        <form id="contact-form">
+          <div class="form-row">
+            <div>
+              <label for="name">Name</label>
+              <input id="name" name="name" placeholder="Your full name" autocomplete="name" required />
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email" required />
+            </div>
           </div>
-          <div>
-            <label for="email">Email</label>
-            <input id="email" type="email" required />
-          </div>
+
           <div>
             <label for="subject">Subject</label>
-            <input id="subject" />
+            <input id="subject" name="subject" placeholder="Project name or short subject" />
           </div>
+
           <div>
             <label for="message">Message</label>
-            <textarea id="message"></textarea>
+            <textarea id="message" name="message" placeholder="Describe your project, timeline and budget (optional)" required></textarea>
+            <div class="form-help">Keep the message concise — we'll reply within 1–2 business days.</div>
           </div>
-          <div style="margin-top:6px;">
+
+          <div style="margin-top:6px; display:flex; gap:12px; align-items:center;">
             <button class="btn btn-primary" type="submit">Send message</button>
+            <div class="form-success" id="form-success" role="status" aria-live="polite" hidden>Thanks — your message was sent.</div>
           </div>
+          <div class="form-privacy">By sending you agree to our <a href="#">privacy policy</a>.</div>
         </form>
 
         <aside class="card">
@@ -56,7 +64,31 @@
       </div>
     </main>
 
-    <footer class="footer"><div class="container">© 2025 Studio — Contact</div></footer>
+    <footer class="footer footer-minimal">
+      <div class="container">© 2025 Studio — <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a></div>
+    </footer>
+
+  <script>
+    (function(){
+      const form = document.getElementById('contact-form');
+      const success = document.getElementById('form-success');
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        // Basic client-side validation
+        if(!form.checkValidity()){
+          form.reportValidity();
+          return;
+        }
+        // Simulate successful submit
+        success.hidden = false;
+        success.style.opacity = '1';
+        // Clear inputs
+        form.querySelectorAll('input,textarea').forEach(el=> el.value = '');
+        // Hide success after a few seconds
+        setTimeout(()=>{ success.hidden = true; success.style.opacity = ''; }, 4500);
+      });
+    })();
+  </script>
   </div>
 </body>
 </html>
